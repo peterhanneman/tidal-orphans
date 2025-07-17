@@ -74,3 +74,19 @@ This playlist contains all tracks that appear in any of your playlists but are N
 Useful for finding playlist tracks you haven't actually added to your library.
 
 If you later add or remove tracks from your library or playlists, running the script again will update the "Playlist Tracks Not In Favorites" playlist accordingly.
+
+
+## Troubleshooting
+
+If authentication fails, delete tidal_session.json and re-run the script to perform a fresh login.
+
+You may need to update tidalapi occasionally to maintain compatibility with Tidal API changes.
+
+```bash
+pip install --upgrade tidalapi
+```
+
+
+## License
+
+This project is provided as-is under the MIT License.
