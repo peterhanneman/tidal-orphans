@@ -4,6 +4,26 @@ Was frustrated with Tidal's lack of library management capabilities so I created
 
 Built using the [tidalapi](https://github.com/tamland/python-tidal) Python library.
 
+## Script Summaries
+#### favorites_not_in_playlists.py
+
+Creates (or updates) a playlist called "Favorites Not In Playlists" in your Tidal account.
+This playlist contains all tracks that are in your Tidal library (favorites) but not included in any of your playlists.
+
+Useful for finding forgotten library tracks.
+
+If you later add or remove tracks from your library or playlists, running the script again will update the "Favorites Not In Playlists" playlist accordingly.
+
+
+#### playlist_tracks_not_in_favorites.py
+
+Creates (or updates) a playlist called "Playlist Tracks Not In Favorites" in your Tidal account.
+This playlist contains all tracks that appear in any of your playlists but are NOT in your Tidal library (favorites).
+
+Useful for finding playlist tracks you haven't actually added to your library.
+
+If you later add or remove tracks from your library or playlists, running the script again will update the "Playlist Tracks Not In Favorites" playlist accordingly.
+
 ---
 
 ## Setup Instructions
@@ -53,27 +73,6 @@ pip install tidalapi
 
 The first time you run either script, you will be prompted to complete a Tidal OAuth authentication flow in your browser.
 After initial setup, your session will be reused (stored in tidal_session.json).  Sessions expire after 24 hours and will need to be re-authenticated.
-
-
-## Script Summaries
-#### favorites_not_in_playlists.py
-
-Creates (or updates) a playlist called "Favorites Not In Playlists" in your Tidal account.
-This playlist contains all tracks that are in your Tidal library (favorites) but not included in any of your playlists.
-
-Useful for finding forgotten library tracks.
-
-If you later add or remove tracks from your library or playlists, running the script again will update the "Favorites Not In Playlists" playlist accordingly.
-
-
-#### playlist_tracks_not_in_favorites.py
-
-Creates (or updates) a playlist called "Playlist Tracks Not In Favorites" in your Tidal account.
-This playlist contains all tracks that appear in any of your playlists but are NOT in your Tidal library (favorites).
-
-Useful for finding playlist tracks you haven't actually added to your library.
-
-If you later add or remove tracks from your library or playlists, running the script again will update the "Playlist Tracks Not In Favorites" playlist accordingly.
 
 
 ## Troubleshooting
