@@ -1,10 +1,10 @@
 """
-Creates (or updates) a playlist called "Library Tracks Not In Playlists" in your Tidal account.
+Creates (or updates) a playlist called "Favorites Not In Playlists" in your Tidal account.
 This playlist contains all tracks that are in your Tidal library (favorites) but not included in any of your playlists.
 
 Useful for finding forgotten library tracks.
 
-If you later add or remove tracks from your library or playlists, running the script again will update the "Library Tracks Not In Playlists" playlist accordingly.
+If you later add or remove tracks from your library or playlists, running the script again will update the "Favorites Not In Playlists" playlist accordingly.
 """
 
 import json
@@ -13,7 +13,7 @@ from time import sleep
 import tidalapi
 from tidalapi.types import ItemOrder, OrderDirection
 
-ORPHAN_PLAYLIST_NAME = "Library Tracks Not In Playlists"
+ORPHAN_PLAYLIST_NAME = "Favorites Not In Playlists"
 SESSION_FILE = "tidal_session.json"
 TIDAL_API_BATCH_SIZE = 100
 

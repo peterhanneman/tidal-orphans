@@ -2,9 +2,6 @@
 
 Was frustrated with Tidal's lack of library management capabilities so I created a set of Python scripts to manage and analyze Tidal playlists and library to find orphaned tracks.
 
-- library_tracks_not_in_playlists.py
-- playlist_tracks_not_in_library.py
-
 Built using the [tidalapi](https://github.com/tamland/python-tidal) Python library.
 
 ---
@@ -59,23 +56,21 @@ After initial setup, your session will be reused (stored in tidal_session.json).
 
 
 ## Script Summaries
-library_tracks_not_in_playlists.py
+#### favorites_not_in_playlists.py
 
-Purpose:
-Creates (or updates) a playlist called "Library Tracks Not In Playlists" in your Tidal account.
+Creates (or updates) a playlist called "Favorites Not In Playlists" in your Tidal account.
 This playlist contains all tracks that are in your Tidal library (favorites) but not included in any of your playlists.
 
 Useful for finding forgotten library tracks.
 
-If you later add or remove tracks from your library or playlists, running the script again will update the Library Tracks Not In Playlists" playlist accordingly.
+If you later add or remove tracks from your library or playlists, running the script again will update the "Favorites Not In Playlists" playlist accordingly.
 
 
-playlist_tracks_not_in_library.py
+#### playlist_tracks_not_in_favorites.py
 
-Purpose:
-Creates (or updates) a playlist called "Tracks From Playlists Not In Library" in your Tidal account.
+Creates (or updates) a playlist called "Playlist Tracks Not In Favorites" in your Tidal account.
 This playlist contains all tracks that appear in any of your playlists but are NOT in your Tidal library (favorites).
 
-Useful for finding playlist tracks you haven't actually added to your library, helping you keep your library and playlists in sync if desired.
+Useful for finding playlist tracks you haven't actually added to your library.
 
-If you later add or remove tracks from your library or playlists, running the script again will update the "Playlist Tracks Not In Library" playlist accordingly.
+If you later add or remove tracks from your library or playlists, running the script again will update the "Playlist Tracks Not In Favorites" playlist accordingly.
