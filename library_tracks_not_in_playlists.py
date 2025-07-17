@@ -1,10 +1,13 @@
 
 import json
 import os
+from time import sleep
 import tidalapi
+from tidalapi.types import ItemOrder, OrderDirection
 
 ORPHAN_PLAYLIST_NAME = "Orphaned Tracks"
 SESSION_FILE = "tidal_session.json"
+TIDAL_API_BATCH_SIZE = 100
 
 def save_session(session):
     data = {
@@ -28,6 +31,34 @@ def load_session():
         data["expiry_time"],
     )
     return session
+
+def fetch_all_user_favorite_tracks(user, page_size=1000):
+    """
+    Fetch all favorite tracks for a Tidal user, regardless of how many there are.
+    Deduplicate tracks by ID only after fetching all pages.
+    """
+    all_tracks = []
+    offset = 0
+    while True:
+        new_tracks = user.favorites.tracks(
+            limit=page_size,
+            offset=offset,
+            order=ItemOrder.Date,
+            order_direction=OrderDirection.Ascending
+        )
+        if not new_tracks:
+            break
+        all_tracks.extend(new_tracks)
+        offset += len(new_tracks)
+        sleep(0.1)
+    seen_track_ids = set()
+    deduped_tracks = []
+    for track in all_tracks:
+        track_id = getattr(track, "id", None)
+        if track_id is not None and track_id not in seen_track_ids:
+            seen_track_ids.add(track_id)
+            deduped_tracks.append(track)
+    return deduped_tracks
 
 def main():
     session = tidalapi.Session()
@@ -59,7 +90,6 @@ def main():
 
     tracks_in_playlists = set()
     orphan_playlist = None
-    BATCH_SIZE = 100  # Tidal API batch size limit
 
     for pl in playlists:
         if pl.name == ORPHAN_PLAYLIST_NAME:
@@ -68,12 +98,14 @@ def main():
         for track in pl.tracks():
             tracks_in_playlists.add(track.id)
 
-    favorites = list(user.favorites.tracks())
+    favorites = fetch_all_user_favorite_tracks(user)
     print(f"Found {len(favorites)} favorite tracks in your Tidal library.")
 
+    # --- Tracks in favorites but NOT in any other playlists ---
     orphan_tracks = [t for t in favorites if t.id not in tracks_in_playlists]
     print(f"{len(orphan_tracks)} tracks are NOT in any other playlists.")
 
+    # --- Create or Update Target Playlist ---
     if orphan_playlist:
         print(f"Updating existing playlist: '{ORPHAN_PLAYLIST_NAME}'")
         current = list(orphan_playlist.tracks())
@@ -91,8 +123,8 @@ def main():
 
         if should_add:
             print(f"Adding {len(should_add)} new orphan tracks...")
-            for i in range(0, len(should_add), BATCH_SIZE):
-                batch = should_add[i:i+BATCH_SIZE]
+            for i in range(0, len(should_add), TIDAL_API_BATCH_SIZE):
+                batch = should_add[i:i+TIDAL_API_BATCH_SIZE]
                 orphan_playlist.add([t.id for t in batch])
         
         if not should_remove and not should_add:
@@ -101,8 +133,8 @@ def main():
     else:
         print(f"Creating playlist '{ORPHAN_PLAYLIST_NAME}' with {len(orphan_tracks)} tracks")
         orphan_playlist = user.create_playlist(ORPHAN_PLAYLIST_NAME, "Tracks from library not in any other playlists.")
-        for i in range(0, len(orphan_tracks), BATCH_SIZE):
-            batch = orphan_tracks[i:i+BATCH_SIZE]
+        for i in range(0, len(orphan_tracks), TIDAL_API_BATCH_SIZE):
+            batch = orphan_tracks[i:i+TIDAL_API_BATCH_SIZE]
             orphan_playlist.add([t.id for t in batch])
 
     print(f"✅ '{ORPHAN_PLAYLIST_NAME}' updated: {len(orphan_tracks)} orphans, {len([t for t in favorites if t.id in tracks_in_playlists])} in playlists.")
