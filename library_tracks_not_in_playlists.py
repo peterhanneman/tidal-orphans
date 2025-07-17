@@ -1,3 +1,11 @@
+"""
+Creates (or updates) a playlist called "Library Tracks Not In Playlists" in your Tidal account.
+This playlist contains all tracks that are in your Tidal library (favorites) but not included in any of your playlists.
+
+Useful for finding forgotten library tracks.
+
+If you later add or remove tracks from your library or playlists, running the script again will update the "Library Tracks Not In Playlists" playlist accordingly.
+"""
 
 import json
 import os
@@ -5,7 +13,7 @@ from time import sleep
 import tidalapi
 from tidalapi.types import ItemOrder, OrderDirection
 
-ORPHAN_PLAYLIST_NAME = "Orphaned Tracks"
+ORPHAN_PLAYLIST_NAME = "Library Tracks Not In Playlists"
 SESSION_FILE = "tidal_session.json"
 TIDAL_API_BATCH_SIZE = 100
 
@@ -14,7 +22,6 @@ def save_session(session):
         "token_type": session.token_type,
         "access_token": session.access_token,
         "refresh_token": session.refresh_token,
-        # expiry_time is a datetime; store as timestamp
         "expiry_time": session.expiry_time.timestamp(),
     }
     with open(SESSION_FILE, "w") as f:

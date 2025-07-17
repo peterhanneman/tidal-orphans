@@ -62,10 +62,13 @@ After initial setup, your session will be reused (stored in tidal_session.json).
 library_tracks_not_in_playlists.py
 
 Purpose:
-Creates (or updates) a playlist called "Orphaned Tracks" in your Tidal account.
+Creates (or updates) a playlist called "Library Tracks Not In Playlists" in your Tidal account.
 This playlist contains all tracks that are in your Tidal library (favorites) but not included in any of your playlists.
 
-    If you later add or remove tracks from your library or playlists, running the script again will update the "Orphaned Tracks" playlist accordingly.
+Useful for finding forgotten library tracks.
+
+If you later add or remove tracks from your library or playlists, running the script again will update the Library Tracks Not In Playlists" playlist accordingly.
+
 
 playlist_tracks_not_in_library.py
 
@@ -73,4 +76,6 @@ Purpose:
 Creates (or updates) a playlist called "Tracks From Playlists Not In Library" in your Tidal account.
 This playlist contains all tracks that appear in any of your playlists but are NOT in your Tidal library (favorites).
 
-    Useful for finding playlist tracks you haven't actually added to your library, helping you keep your library and playlists in sync if desired.
+Useful for finding playlist tracks you haven't actually added to your library, helping you keep your library and playlists in sync if desired.
+
+If you later add or remove tracks from your library or playlists, running the script again will update the "Playlist Tracks Not In Library" playlist accordingly.
